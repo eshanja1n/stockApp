@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Stock</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+</head>
+<body style="background-color: #FCDC90;">
+    
+
+    {% if request.user.is_authenticated %}
+    <div class="card sticky-top opacity-75 bg-secondary text-white">
+        <p class="font-weight-bold" style="text-align: center; padding-top: 10px;"><b>Hello, @{{request.user.username}} 👋 |</b>     
+            <a class="btn btn-light" href="{%url 'logout' %}"><b>Logout</b></a>        
+        </p>
+    </div>
+    <br>
+
+<div>
+
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-lg-2">
+                <div class="card bg-light text-dark position-fixed" style="border: 1px solid #909090; padding: 10px;">
+                    <p><a href="{%url 'home' %}" class="btn btn-outline-dark">🏠 <b>Home</b></a></p>
+                    <br>
+                    <p><a href="{%url 'search' %}" class="btn btn-outline-dark">🔍 Search</a></p>
+                    <br>
+                    <p><a href="{%url 'profile' request.user.username %}" class="btn btn-outline-dark">😀 Profile</a></p>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <p style="text-align: center;"><a href="{% url 'create_post' %}" class="btn btn-primary">Post a Trade 💌</a></p>
+                </div>
+                
+            </div>
+            <div class="col-lg-7">
+                {% for p in posts %}
+                    <div class="card bg-light text-dark" style="border: 1px solid #909090; padding: 10px; box-shadow: 0 6px 10px rgba(0,0,0,.15), 0 0 6px rgba(0,0,0,.05);">
+                        <div>
+                            <div>
+                                <p style="float: right; top: 20px;">{{p.date_published}}</p>
+                                
+                                {% if p.percentChange >= 0%}
+                                    <h1 style="color: green;">+{{p.percentChange}}%</h1>
+                                {% else %}  
+                                    <h1 style="color:red;">{{p.percentChange}}%</h1>
+                                {% endif %}
+
+                               
+                            </div>
+                            
+    
+                            <a href="https://finance.yahoo.com/quote/{{p.ticker}}/" target="_blank"><h3>${{p.ticker}}</h3></a>
+                            
+                            <h6>{{p.buyDate}}  ➡️  {{p.sellDate}}</h6>
+                        </div>
+    
+                        <div>
+                            <!-- <iframe width="100%" height="500" src="https://opensea.io/" title="{{post.id}}-graph"></iframe> -->
+                            <iframe width="100%" height="500" src="{% url 'graph' p.hex %}" title="{{p.id}}-graph"></iframe>
+                        </div>
+                        <hr>
+                        <div>
+                            <h6 ><a style="text-decoration: none; color: grey;" href="{% url 'profile' p.author %}">@{{p.author}}</a></h6>
+                            <p>{{p.caption}}</p>
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
+            </div>
+
+            <div class="col-lg-3">
+                <div class="card bg-light text-dark" style="border: 1px solid #909090; padding: 10px; position: fixed;">
+                    <p>We know you wanna share... 🥳</p>
+                    <p>Show off your best picks 💰, or maybe your biggest flops 🔫</p>
+                    <p style="text-align: center;"><a href="{% url 'create_post' %}" class="btn btn-primary" >Post a Trade 💌</a></p>
+                </div>
+
+
+
+            </div>
+
+            
+
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+    
+
+
+{% else %}
+<div class="card sticky-top opacity-75 bg-secondary text-white">
+    <p style="text-align: center; padding-top: 10px;">
+        <a class="btn btn-light" href="{%url 'register' %}">Register</a> |  
+        <a class="btn btn-light" href="{%url 'login' %}">Login</a>
+    </p> 
+</div>
+<br>
+
+<center style="padding-top: 300px;">Join the Community</center>
+
+{% endif %}
+    
+
+    <!-- <input type="date" value="2017-06-01"> -->
+    <!-- {{head}} -->
+    <!-- company_name = msft.info['longName'] -->
+
+
+    <!-- <iframe src="graph.html"></iframe> -->
+
+    <!-- <iframe id="encoder_iframe" height=75% width="50%" src="https://www.espn.com"></iframe> -->
+
+    <!-- <script>
+        var theName = prompt("What is your name?");
+        var w = window.open("", "", "width=500, height=300");
+    w.document.body.innerHTML = "Hello "+theName+"!";
+    </script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script> 
+</body>
+</html>

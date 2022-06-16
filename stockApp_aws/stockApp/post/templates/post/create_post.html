@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Stock</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+</head>
+<body style="background-color: #FCDC90;">
+
+    <div class="card sticky-top opacity-75 bg-secondary text-white">
+        <p class="font-weight-bold" style="text-align: center; padding-top: 10px;"><b>Hello, @{{request.user.username}} 👋 |</b>     
+            <a class="btn btn-light" href="{%url 'home' %}"><b>Back</b></a>        
+        </p>
+    </div>
+    <br>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 offset-2">
+                <div class="card bg-light text-dark" style="border: 1px solid #909090; padding: 10px;">
+                    <h2 style="text-align: center;" >Post a Trade</h2>
+                    <hr>
+                    <form id="create_trade" class="create-form" method="post">{% csrf_token %}
+                        <div class="text-center">
+                            <div class="form-group">
+                                <label for="ticker">Ticker: $</label>
+                                <input type="text" id="ticker" name="ticker"><br>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="buyDate">Date Purchased:</label>
+                                <input type="date" value="" id="buyDate" name="buyDate">
+                                <label for="sellDate">Date Sold:</label>
+                                <input type="date" value="" id="sellDate" name="sellDate"><br>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="caption">Caption:</label>
+                                <textarea rows="10" type="text" id="caption" name="caption"></textarea><br>
+                            </div>
+                            <br>
+                    
+                            <div class="text-center">
+                                <!-- <button type="submit">Save Changes</button> -->
+                                <a class="btn btn-secondary" href="#" onclick="document.getElementById('create_trade').submit();">Post</a>
+                            </div>
+                        </div>
+                        
+                
+                    </form>
+
+
+                </div>
+            
+            
+            
+            
+            
+            </div>
+    
+        </div>
+    </div>
+
+
+    
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script> 
+
+</body>
+</html>

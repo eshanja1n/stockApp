@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Stock</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+</head>
+<body style="background-color: #FCDC90;">
+    
+
+    <div class="card sticky-top opacity-75 bg-secondary text-white">
+        <p class="font-weight-bold" style="text-align: center; padding-top: 10px;">Hello, @{{request.user.username}} 👋 | 
+            <a class="btn btn-light" href="{%url 'logout' %}">Logout</a>        
+        </p> 
+    </div>
+    <br>
+
+
+    <div>
+
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-2">
+                    <div class="card bg-light text-dark" style="border: 1px solid #909090; position: fixed; padding: 10px;">
+                        <p><a href="{%url 'home' %}" class="btn btn-outline-dark">🏠 Home</a></p>
+                        <br>
+                        <p><a href="{%url 'search' %}" class="btn btn-outline-dark">🔍 Search</a></p>
+                        <br>
+                        <p><a href="{%url 'profile' request.user.username %}" class="btn btn-outline-dark">😀 <b>Profile</b></a></p>
+                        <br>
+                        <br>
+                        <br>
+                        <!-- <p>🗑</p> -->
+                        
+                        <br>
+                        <p style="text-align: center;"><a href="{% url 'create_post' %}" class="btn btn-primary">Post a Trade 💌</a></p>
+                    </div>
+                    
+                </div>
+                <div class="col-lg-7">
+                    <div class="card bg-light text-dark" style="border: 1px solid #909090; padding: 10px;  box-shadow: 0 6px 10px rgba(0,0,0,.15), 0 0 6px rgba(0,0,0,.05);">
+                        <div>  
+                            <p style="float: right; top: 20px; color: grey;">Joined {{user.date_joined}}</p>
+                            <h3>{{user.fullname}}</h3> 
+                            <div style="display: flex; justify-content: space-between;">
+                                <h5 style="color: grey;">@{{user.username}}</h6>
+
+                                {% if request.user.username ==  user.username%}
+                                    <p><a href="{% url 'account' %}" class="btn btn-secondary btn-sm">Edit Profile</a></p>
+                                {% endif %}
+                            </div>
+                            
+
+                            <!-- <br> -->
+
+                            <p>{{user.bio}}</p>
+
+                            <div style="display: flex; justify-content: space-between;">
+                                {% if num_trades == 1 %}
+                                    <p><b>{{num_trades}}</b> Trade 🚀</p>
+                                {% else %}
+                                    <p><b>{{num_trades}}</b> Trades 🚀</p>
+                                {% endif %}
+
+                                <p><a style="text-decoration: none;" target="blank" href = "mailto: {{user.email}}">🗣 Contact</a></p>
+
+
+                            </div>
+                            
+                            
+
+                        </div>
+                        <hr>
+
+
+                        <div class="container">
+                            <div class="row">
+
+                                {% if num_trades == 0%}
+                                    <div>
+                                        <p style="text-align:center;">No posts! How sad 🤧</p>
+                                    </div>
+
+                                {% else %}
+
+                                    {% for trade in trades %}
+
+                                        <div class="col-lg-6 mb-4 ">
+                                            <div style="box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.3);" class="card">
+                                                
+                                                <div class="card-body">
+                                                    <div style="display: flex; justify-content: space-between;">
+                                                        {% if trade.percentChange >= 0%}
+                                                            <h3 class="card-title" style="color: green;"><b>+{{trade.percentChange}}%</b></h3>
+                                                        {% else %}  
+                                                            <h3 class="card-title" style="color:red;"><b>{{trade.percentChange}}%</b></h3>
+                                                        {% endif %}
+
+                                                        {% if request.user.username ==  user.username%}
+                                                            <a style="align-items:center;" href="/delete/{{trade.id}}" class="btn btn-outline-secondary">
+                                                                🗑</a>
+                                                        {% endif %}
+                                                        
+                                                    </div>
+                                                    
+                                                        <h5>${{trade.ticker}}</h5>
+                                                    <p class="card-text">
+                                                        {{trade.buyDate}}  ➡️  {{trade.sellDate}}
+                                                    </p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+
+
+                                    {%endfor%}
+
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        
+                        
+                        <!-- {% for trade in trades %}
+                            {{trade.ticker}}
+
+                        {%endfor%} -->
+                    </div>
+                    
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="card bg-light text-dark" style="border: 1px solid #909090; padding: 10px; position: fixed;">
+                        <p>We know you wanna share... 🥳</p>
+                        <p>Show off your best picks 💰, or maybe your biggest flops 🔫</p>
+                        <p style="text-align: center;"><a href="{% url 'create_post' %}" class="btn btn-primary" >Post a Trade 💌</a></p>
+                    </div>
+    
+    
+    
+                </div>
+    
+                
+    
+    
+            </div>
+        </div>
+    
+    
+    
+    
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script> 
+</body>
+</html>
